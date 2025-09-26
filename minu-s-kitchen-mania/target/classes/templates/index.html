@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Minu's Kitchen Mania</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/favicon.png}">
+
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">🍴 Minu's Kitchen Mania</div>
+    <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#speciality">Specialities</a></li>
+        <li><a href="#recipes">Recipes</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>🍴 Welcome to Minu's Kitchen Mania</h1>
+        <p>Delicious homemade recipes made with love ❤️</p>
+        <a href="#speciality" class="btn">Explore Specialities</a>
+    </div>
+</section>
+
+<!-- Form Section -->
+<section class="form-section">
+    <h2 th:text="${recipe.id} != null ? 'Edit Recipe' : 'Add a New Recipe'"></h2>
+
+    <form th:action="${recipe.id} != null ? @{/update/{id}(id=${recipe.id})} : @{/addRecipe}"
+          th:object="${recipe}" method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <label>Dish Name:</label>
+        <input type="text" th:field="*{dishName}" required><br><br>
+
+        <label>Chef Name:</label>
+        <input type="text" th:field="*{chefName}" required><br><br>
+
+        <button type="submit" th:text="${recipe.id} != null ? 'Update Recipe' : 'Save Recipe'"></button>
+        <a th:if="${recipe.id} != null" href="/" class="btn-cancel">Cancel</a>
+    </form>
+</section>
+
+<!-- Speciality Section -->
+<section id="speciality" class="speciality">
+    <h2>Our Specialities</h2>
+    <div class="dish-grid">
+        <div class="dish-card">
+            <img th:src="@{/images/veg-biryani.jpg}" alt="Biryani">
+            <h3>Hyderabadi Biryani</h3>
+            <p>₹ 250</p>
+        </div>
+        <div class="dish-card">
+            <img th:src="@{/images/paneer.jpg}" alt="Paneer Butter Masala">
+            <h3>Paneer Butter Masala</h3>
+            <p>₹ 180</p>
+        </div>
+        <div class="dish-card">
+            <img th:src="@{/images/dosa.jpg}" alt="Masala Dosa">
+            <h3>Masala Dosa</h3>
+            <p>₹ 120</p>
+        </div>
+        <div class="dish-card">
+            <img th:src="@{/images/gulabjamun.jpg}" alt="Gulab Jamun">
+            <h3>Gulab Jamun</h3>
+            <p>₹ 80</p>
+        </div>
+    </div>
+</section>
+
+<!-- Recipe Table -->
+<section id="recipes" class="recipe-list">
+    <h2>All Recipes</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Dish Name</th>
+            <th>Chef Name</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="rec : ${recipes}">
+            <td th:text="${rec.id}"></td>
+            <td th:text="${rec.dishName}"></td>
+            <td th:text="${rec.chefName}"></td>
+            <td>
+                <a th:href="@{/edit/{id}(id=${rec.id})}">Edit</a> |
+                <a th:href="@{/delete/{id}(id=${rec.id})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-container">
+        <!-- Contact Form -->
+        <form th:action="@{/saveContact}" th:object="${contact}" method="post" class="contact-form">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" th:field="*{name}" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" th:field="*{email}" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" th:field="*{message}" rows="4" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <p><strong>📍 Address:</strong> Warje,Pune,Maharashtra, India</p>
+            <p><strong>📞 Phone:</strong> +91 9922425194</p>
+            <p>
+                <strong>✉️ Email:</strong> meenakhadke123@gmail.com
+            </p>
+            <p>
+                <a href="https://wa.me/919922425194" target="_blank" class="whatsapp-link">
+                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+            </p>
+        </div>
+    </div>
+</section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Footer -->
+<footer class="footer">
+    <p>© 2025 Minu's Kitchen Mania | All Rights Reserved</p>
+    <p>
+        Follow us:
+        <a href="#">Facebook</a> |
+        <a href="#">Instagram</a> |
+        <a href="#">Twitter</a>
+    </p>
+</footer>
+
+</body>
+</html>
